@@ -1,0 +1,88 @@
+﻿@model PagedList.IPagedList<WinStore.Models.AssignTask>
+@using PagedList.Mvc
+@{
+    ViewBag.Title = "Index";
+}
+
+<h2>Index</h2>
+
+<p>
+    @Html.ActionLink("Create New", "Create")
+    @using (Html.BeginForm("Index", "AssignTasks", FormMethod.Get))
+    {
+        <p>
+            Search: @Html.TextBox("SearchString")
+            Department: @Html.DropDownList("Department","All")
+            Company: @Html.DropDownList("Company","All")
+            Date: @Html.DropDownList("Date", "All")
+            <input type="submit" value="Find"/>
+        </p>
+    }
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Client.ClientName)*@
+            @Html.ActionLink("Client Name", "Index", new { SortOrder = ViewBag.SortingByClientName })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Employee.EmployeeName)*@
+            @Html.ActionLink("Employee Name", "Index", new { SortOrder = ViewBag.SortingByEmployeeName })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Project.ProjectName)*@
+            @Html.ActionLink("Project Name", "Index", new { SortOrder = ViewBag.SortingByProjectName })
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Task)*@
+            Task
+        </th>
+        <th>
+            @*@Html.DisplayNameFor(model => model.Note)*@
+            Note
+        </th>
+        <th>            
+            Project Start
+        </th>
+        <th>            
+            Project End
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var item in Model) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => item.Client.ClientName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Employee.EmployeeName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectName)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Task)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Note)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectStart)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => item.Project.ProjectEnd)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new { id=item.AssignTaskId }) |
+            @Html.ActionLink("Details", "Details", new { id=item.AssignTaskId }) |
+            @Html.ActionLink("Delete", "Delete", new { id=item.AssignTaskId })
+        </td>
+    </tr>
+}
+
+</table>
+<br/>
+Page: @(Model.PageCount < Model.PageNumber ? 0 :Model.PageNumber)
+        of @Model.PageCount @Html.PagedListPager(Model,Page_No
+                           =>Url.Action("Index",new { Page_No}))
